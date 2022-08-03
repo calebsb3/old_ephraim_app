@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>694880629233-lnt829apf8cneu3eid821adciqdokdsc.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.694880629233-lnt829apf8cneu3eid821adciqdokdsc</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBxh-56wMJvAftnL9Pitt45L6mxKaVIDho</string>
+	<key>GCM_SENDER_ID</key>
+	<string>694880629233</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.oldEphraimApp</string>
+	<key>PROJECT_ID</key>
+	<string>old-ephraim</string>
+	<key>STORAGE_BUCKET</key>
+	<string>old-ephraim.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:694880629233:ios:ec3471a1cf5782d4211450</string>
+</dict>
+</plist>

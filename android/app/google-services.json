@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "694880629233",
+    "project_id": "old-ephraim",
+    "storage_bucket": "old-ephraim.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:694880629233:android:d761c138e105ec06211450",
+        "android_client_info": {
+          "package_name": "com.example.old_ephraim_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "694880629233-cdgm5cdqhgq8he2kh5s38b856bln8ll1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY0BKCdKcgpxR42oWKbCWadunNOqjWo4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "694880629233-cdgm5cdqhgq8he2kh5s38b856bln8ll1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "694880629233-lnt829apf8cneu3eid821adciqdokdsc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.oldEphraimApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
