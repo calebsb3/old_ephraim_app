@@ -1,5 +1,6 @@
 // ignore_for_file: file_names
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import '../Models/itemModel.dart';
 import 'package:old_ephraim_app/Views/item_card.dart';
@@ -12,40 +13,78 @@ class DailyCounts extends StatefulWidget {
 }
 
 class _DailyCountsState extends State<DailyCounts> {
-  List<int> itemCounts = [0, 0, 0, 0, 0, 0];
+  Map<String, int> itemCounts = {
+    'intense_exercise': 0,
+    'moderate_exercise': 0,
+    'fruits_veggies': 0,
+    'whole': 0,
+    'processed': 0,
+    'ultra_processed': 0
+  };
   List<ItemModel> itemModels = [
     ItemModel(
         title: "Intense Exercise",
+        databaseName: "intense_exercise",
         changeAmount: 5,
         iconToDisplay: Icons.directions_run),
     ItemModel(
         title: "Moderate Exercise",
+        databaseName: "moderate_exercise",
         changeAmount: 3,
         iconToDisplay: Icons.accessibility),
     ItemModel(
         title: "Fruits/Veggies",
+        databaseName: "fruits_veggies",
         changeAmount: 5,
         iconToDisplay: Icons.done_all),
-    ItemModel(title: "Whole Foods", changeAmount: 2, iconToDisplay: Icons.done),
+    ItemModel(
+        title: "Whole Foods",
+        databaseName: "whole",
+        changeAmount: 2,
+        iconToDisplay: Icons.done),
     ItemModel(
         title: "Processed Foods",
+        databaseName: "processed",
         changeAmount: -3,
         iconToDisplay: Icons.mood_bad),
     ItemModel(
         title: "Ultra-Processed Crap",
+        databaseName: "ultra_processed",
         changeAmount: -10,
         iconToDisplay: Icons.delete)
   ];
 
-  void updateCounter(int amountToUpdateBy, int index) {
-    setState(() {
-      itemCounts[index] += amountToUpdateBy;
-    });
+  String getTotal() {
+    var total = itemCounts.values.reduce((value, element) => value + element);
+    return total.toString();
   }
 
-  String getTotal() {
-    var total = itemCounts.reduce((value, element) => value + element);
-    return total.toString();
+  void updateCounts(Map<dynamic, dynamic> mappedCounts) {
+    for (var nameAndCount in mappedCounts.entries) {
+      if (itemCounts.containsKey(nameAndCount.key)) {
+        setState(() {
+          itemCounts[nameAndCount.key] = nameAndCount.value;
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseDatabase.instance
+        .ref('/users/Alaina/counts/breakfast')
+        .onValue
+        .listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+      try {
+        var dataMapped = data as Map;
+        updateCounts(dataMapped);
+      } catch (error) {
+        print(error.toString());
+      }
+    });
   }
 
   @override
@@ -76,8 +115,7 @@ class _DailyCountsState extends State<DailyCounts> {
                 itemBuilder: (BuildContext context, int index) {
                   return ItemCard(
                     itemModel: itemModels[index],
-                    counter: itemCounts[index],
-                    changeCallBack: updateCounter,
+                    counter: itemCounts[itemModels[index].databaseName] ?? 0,
                     index: index,
                   );
                 },

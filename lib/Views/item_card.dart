@@ -1,3 +1,4 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:old_ephraim_app/Models/itemModel.dart';
 
@@ -6,13 +7,11 @@ class ItemCard extends StatefulWidget {
       {Key? key,
       required this.itemModel,
       required this.counter,
-      required this.changeCallBack,
       required this.index})
       : super(key: key);
 
   final ItemModel itemModel;
   final int counter;
-  final Function(int, int) changeCallBack;
   final int index;
 
   @override
@@ -21,7 +20,10 @@ class ItemCard extends StatefulWidget {
 
 class _ItemCardState extends State<ItemCard> {
   void updateCounter() {
-    widget.changeCallBack(widget.itemModel.changeAmount, widget.index);
+    final newCount = widget.counter + widget.itemModel.changeAmount;
+    FirebaseDatabase.instance
+        .ref("/users/Alaina/counts/breakfast")
+        .set({widget.itemModel.databaseName: newCount});
   }
 
   @override

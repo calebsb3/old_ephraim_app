@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticationPage extends StatefulWidget {
@@ -31,6 +32,39 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             .createUserWithEmailAndPassword(
                 email: signupEmailController.text,
                 password: signupPass1Controller.text);
+
+        DatabaseReference usersRef = FirebaseDatabase.instance.ref("users");
+
+        await usersRef.set({
+          userCredential.user?.uid: {
+            "counts": {
+              "breakfast": {
+                "fruits_veggies": 0,
+                "intense_exercise": 0,
+                "moderate_exercise": 0,
+                "processed": 0,
+                "ultra_processed": 0,
+                "whole": 0
+              },
+              "lunch": {
+                "fruits_veggies": 0,
+                "intense_exercise": 0,
+                "moderate_exercise": 0,
+                "processed": 0,
+                "ultra_processed": 0,
+                "whole": 0
+              },
+              "dinner": {
+                "fruits_veggies": 0,
+                "intense_exercise": 0,
+                "moderate_exercise": 0,
+                "processed": 0,
+                "ultra_processed": 0,
+                "whole": 0
+              }
+            }
+          }
+        });
 
         widget.userCallBack(userCredential);
       } on FirebaseAuthException catch (e) {
