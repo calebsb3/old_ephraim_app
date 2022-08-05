@@ -2,8 +2,11 @@
 
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../Models/itemModel.dart';
 import 'package:old_ephraim_app/Views/item_card.dart';
+
+import '../Providers/UserViewModel.dart';
 
 class DailyCounts extends StatefulWidget {
   const DailyCounts({Key? key}) : super(key: key);
@@ -72,9 +75,10 @@ class _DailyCountsState extends State<DailyCounts> {
   @override
   void initState() {
     super.initState();
+    var userVM = Provider.of<UserViewModel>(context, listen: false);
 
     FirebaseDatabase.instance
-        .ref('/users/Alaina/counts/breakfast')
+        .ref('/users/${userVM.currentUser?.uid}/counts/breakfast')
         .onValue
         .listen((DatabaseEvent event) {
       final data = event.snapshot.value;

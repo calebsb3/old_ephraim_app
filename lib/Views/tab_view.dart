@@ -28,10 +28,10 @@ class _TabViewState extends State<TabView> {
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            DailyCounts(),
-            Icon(Icons.calendar_today),
+            const DailyCounts(),
+            const Icon(Icons.calendar_today),
           ],
         ),
         // This trailing comma makes auto-formatting nicer for build methods.

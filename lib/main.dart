@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:old_ephraim_app/Providers/UserViewModel.dart';
 import 'package:old_ephraim_app/Views/auth_page.dart';
 import 'package:old_ephraim_app/Views/daily_counts.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:old_ephraim_app/Views/tab_view.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +16,10 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => UserViewModel(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -63,29 +68,30 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   FirebaseDatabase database = FirebaseDatabase.instance;
 
-  User? user;
-
-  void updateUser(UserCredential uc) {
-    setState(() {
-      user = uc.user;
-    });
-  }
-
   Widget returnCorrectView() {
-    if (user == null) {
-      return AuthenticationPage(
-        userCallBack: updateUser,
-      );
+    var userVM = Provider.of<UserViewModel>(context);
+
+    if (userVM.currentUser == null) {
+      return const AuthenticationPage();
     } else {
-      return TabView(title: widget.title);
+      return TabView(
+        title: widget.title,
+      );
     }
   }
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    super.initState();
+
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      user = user;
+      Provider.of<UserViewModel>(context, listen: false)
+          .updateCurrentUser(user);
     });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.

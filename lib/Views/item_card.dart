@@ -1,6 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:old_ephraim_app/Models/itemModel.dart';
+import 'package:provider/provider.dart';
+
+import '../Providers/UserViewModel.dart';
 
 class ItemCard extends StatefulWidget {
   const ItemCard(
@@ -20,10 +23,11 @@ class ItemCard extends StatefulWidget {
 
 class _ItemCardState extends State<ItemCard> {
   void updateCounter() {
+    var userVM = Provider.of<UserViewModel>(context, listen: false);
     final newCount = widget.counter + widget.itemModel.changeAmount;
     FirebaseDatabase.instance
-        .ref("/users/Alaina/counts/breakfast")
-        .set({widget.itemModel.databaseName: newCount});
+        .ref("/users/${userVM.currentUser?.uid}/counts/breakfast")
+        .update({widget.itemModel.databaseName: newCount});
   }
 
   @override

@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:old_ephraim_app/Providers/UserViewModel.dart';
+import 'package:provider/provider.dart';
 
 class AuthenticationPage extends StatefulWidget {
-  const AuthenticationPage({Key? key, required this.userCallBack})
-      : super(key: key);
+  const AuthenticationPage({Key? key}) : super(key: key);
 
-  final Function(UserCredential) userCallBack;
   @override
   State<AuthenticationPage> createState() => _AuthenticationPageState();
 }
@@ -66,7 +66,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           }
         });
 
-        widget.userCallBack(userCredential);
+        Provider.of<UserViewModel>(context, listen: false)
+            .updateCurrentUser(userCredential.user);
       } on FirebaseAuthException catch (e) {
         setState(() {
           signupExceptionText = e.code;
@@ -91,7 +92,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 email: loginEmailController.text,
                 password: loginPass1Controller.text);
 
-        widget.userCallBack(userCredential);
+        Provider.of<UserViewModel>(context, listen: false)
+            .updateCurrentUser(userCredential.user);
       } on FirebaseAuthException catch (e) {
         setState(() {
           loginExceptionText = e.code;
