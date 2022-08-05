@@ -72,6 +72,21 @@ class _DailyCountsState extends State<DailyCounts> {
     }
   }
 
+  void startNewWeek() {
+    var userVM = Provider.of<UserViewModel>(context, listen: false);
+
+    FirebaseDatabase.instance
+        .ref('/users/${userVM.currentUser?.uid}/counts/breakfast')
+        .set({
+      "fruits_veggies": 0,
+      "intense_exercise": 0,
+      "moderate_exercise": 0,
+      "processed": 0,
+      "ultra_processed": 0,
+      "whole": 0
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -128,6 +143,10 @@ class _DailyCountsState extends State<DailyCounts> {
                   height: 5,
                 ),
               ),
+            ),
+            ElevatedButton(
+              onPressed: startNewWeek,
+              child: const Text("Start New Week"),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 40),
