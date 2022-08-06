@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.old_ephraim_app">
+    package="belk.caleb.old_ephraim_app">
    <application
         android:label="old_ephraim_app"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/old_ephraim_icon_512">
         <activity
             android:name=".MainActivity"
             android:exported="true"
