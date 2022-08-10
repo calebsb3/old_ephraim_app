@@ -33,10 +33,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 email: signupEmailController.text,
                 password: signupPass1Controller.text);
 
-        DatabaseReference usersRef = FirebaseDatabase.instance.ref("users");
+        final newUID = userCredential.user?.uid;
 
-        await usersRef.set({
-          userCredential.user?.uid: {
+        if (newUID != null) {
+          DatabaseReference usersRef =
+              FirebaseDatabase.instance.ref("users/$newUID");
+
+          await usersRef.set({
             "counts": {
               "breakfast": {
                 "fruits_veggies": 0,
@@ -63,11 +66,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 "whole": 0
               }
             }
-          }
-        });
-
-        Provider.of<UserViewModel>(context, listen: false)
-            .updateCurrentUser(userCredential.user);
+          });
+        }
       } on FirebaseAuthException catch (e) {
         setState(() {
           signupExceptionText = e.code;
