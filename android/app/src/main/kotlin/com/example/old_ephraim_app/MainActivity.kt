@@ -1,4 +1,4 @@
-package com.example.old_ephraim_app
+package belk.caleb.oldEphraimApp
 
 import io.flutter.embedding.android.FlutterActivity
 

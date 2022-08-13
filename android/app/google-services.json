@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:694880629233:android:d761c138e105ec06211450",
         "android_client_info": {
-          "package_name": "com.example.old_ephraim_app"
+          "package_name": "belk.caleb.oldEphraimApp"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "694880629233-lnt829apf8cneu3eid821adciqdokdsc.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.oldEphraimApp"
+                "bundle_id": "belk.caleb.oldEphraimApp"
               }
             }
           ]
