@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:old_ephraim_app/Views/weekly_counts.dart';
 
 import 'daily_counts.dart';
 
@@ -28,10 +29,10 @@ class _TabViewState extends State<TabView> {
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
-            const DailyCounts(),
-            const Icon(Icons.calendar_today),
+            DailyCounts(),
+            WeeklyCounts(),
           ],
         ),
         // This trailing comma makes auto-formatting nicer for build methods.
