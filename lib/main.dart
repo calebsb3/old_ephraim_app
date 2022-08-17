@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:old_ephraim_app/Providers/UserViewModel.dart';
+import 'package:old_ephraim_app/Providers/counts_view_model.dart';
 import 'package:old_ephraim_app/Views/auth_page.dart';
 import 'package:old_ephraim_app/Views/daily_counts.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,10 +17,12 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(ChangeNotifierProvider(
-    create: (context) => UserViewModel(),
-    child: const MyApp(),
-  ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => UserViewModel(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -74,9 +77,13 @@ class _MyHomePageState extends State<MyHomePage> {
     if (userVM.currentUser == null) {
       return const AuthenticationPage();
     } else {
-      return TabView(
-        title: widget.title,
-      );
+      return Consumer<UserViewModel>(builder: (context, userVM, child) {
+        return ChangeNotifierProvider(
+            create: (context) => CountsViewModel(userVM.currentUser!.uid),
+            child: TabView(
+              title: widget.title,
+            ));
+      });
     }
   }
 
