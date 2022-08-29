@@ -30,10 +30,43 @@ class _ItemCardState extends State<ItemCard> {
         .update({widget.itemModel.databaseName: newCount});
   }
 
+  Future<void> _showUndoDialog() async {
+    return showDialog<void>(
+      context: context, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Undo Count'),
+          content: const Text('This will remove a count from this item.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Ok'),
+              onPressed: () {
+                undoCounter();
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void undoCounter() {
+    var userVM = Provider.of<UserViewModel>(context, listen: false);
+
+    if (widget.counter != 0) {
+      final newCount = widget.counter - widget.itemModel.changeAmount;
+      FirebaseDatabase.instance
+          .ref("/users/${userVM.currentUser?.uid}/counts/breakfast")
+          .update({widget.itemModel.databaseName: newCount});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: updateCounter,
+      onLongPress: _showUndoDialog,
       child: Card(
         child: ListTile(
           leading: Icon(widget.itemModel.iconToDisplay),
