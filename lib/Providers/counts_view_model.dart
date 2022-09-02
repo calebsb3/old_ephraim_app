@@ -17,6 +17,7 @@ class CountsViewModel extends ChangeNotifier {
   final DateFormat uiFormatter = DateFormat('MM-dd-yyyy');
   Map<DateTime, int> weeksCounts = {};
   List<DateTime> weeksOrdered = [];
+  int goal = 0;
 
   CountsViewModel(this.uid);
 
@@ -56,6 +57,11 @@ class CountsViewModel extends ChangeNotifier {
     return total;
   }
 
+  String getTotalAndGoal() {
+    var total = getTotal();
+    return "$total / $goal";
+  }
+
   void updateCounts(Map<dynamic, dynamic> mappedCounts) {
     for (var nameAndCount in mappedCounts.entries) {
       if (itemCounts.containsKey(nameAndCount.key)) {
@@ -65,7 +71,12 @@ class CountsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void startNewWeek() {
+  void updateGoal(int newGoal) {
+    goal = newGoal;
+    notifyListeners();
+  }
+
+  void startNewWeek(int newGoal) {
     var beginningSaturday = DateTime.now();
     if (weeksOrdered.isEmpty) {
       beginningSaturday = findLastSaturday();
@@ -86,6 +97,8 @@ class CountsViewModel extends ChangeNotifier {
       "ultra_processed": 0,
       "whole": 0
     });
+
+    db.child('/users/$uid/goal').set(newGoal);
   }
 
   Widget returnDateFormatted(index) {
