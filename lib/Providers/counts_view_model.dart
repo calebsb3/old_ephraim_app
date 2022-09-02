@@ -14,10 +14,11 @@ class CountsViewModel extends ChangeNotifier {
   };
   DatabaseReference db = FirebaseDatabase.instance.ref();
   final DateFormat intoDbFormatter = DateFormat('yyyy-MM-dd');
-  final DateFormat uiFormatter = DateFormat('MM-dd-yyyy');
+  final DateFormat uiTimeFormatter = DateFormat('MM-dd-yyyy @ H:m:s');
   Map<DateTime, int> weeksCounts = {};
   List<DateTime> weeksOrdered = [];
   int goal = 0;
+  DateTime lastUpdate = DateTime.now();
 
   CountsViewModel(this.uid);
 
@@ -57,6 +58,11 @@ class CountsViewModel extends ChangeNotifier {
     return total;
   }
 
+  String getLastUpdate() {
+    var lastUpdateString = uiTimeFormatter.format(lastUpdate);
+    return lastUpdateString;
+  }
+
   String getTotalAndGoal() {
     var total = getTotal();
     return "$total / $goal";
@@ -73,6 +79,11 @@ class CountsViewModel extends ChangeNotifier {
 
   void updateGoal(int newGoal) {
     goal = newGoal;
+    notifyListeners();
+  }
+
+  void updateLastUpdate(String newDate) {
+    lastUpdate = DateTime.parse(newDate);
     notifyListeners();
   }
 

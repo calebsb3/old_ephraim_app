@@ -138,6 +138,18 @@ class _DailyCountsState extends State<DailyCounts> {
         print(error.toString());
       }
     });
+
+    db
+        .ref('/users/${userVM.currentUser?.uid}/lastUpdate')
+        .onValue
+        .listen((DatabaseEvent event) {
+      final data = event.snapshot.value;
+      try {
+        countsVM.updateLastUpdate(data as String);
+      } catch (error) {
+        print(error.toString());
+      }
+    });
   }
 
   @override
@@ -163,6 +175,7 @@ class _DailyCountsState extends State<DailyCounts> {
                 ),
               ),
             ),
+            Text("Last Time Updated: ${countVM.getLastUpdate()}"),
             Text(
               countVM.getTotalAndGoal(),
               style: const TextStyle(fontSize: 40),

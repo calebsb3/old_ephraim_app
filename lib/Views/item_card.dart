@@ -1,5 +1,6 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:old_ephraim_app/Models/itemModel.dart';
 import 'package:provider/provider.dart';
 
@@ -22,12 +23,19 @@ class ItemCard extends StatefulWidget {
 }
 
 class _ItemCardState extends State<ItemCard> {
+  final DateFormat intoDbFormatter = DateFormat('yyyy-MM-dd H:m:s');
   void updateCounter() {
     var userVM = Provider.of<UserViewModel>(context, listen: false);
     final newCount = widget.counter + widget.itemModel.changeAmount;
-    FirebaseDatabase.instance
+    var db = FirebaseDatabase.instance;
+
+    db
         .ref("/users/${userVM.currentUser?.uid}/counts/breakfast")
         .update({widget.itemModel.databaseName: newCount});
+
+    db
+        .ref("/users/${userVM.currentUser?.uid}/lastUpdate")
+        .set(intoDbFormatter.format(DateTime.now()));
   }
 
   Future<void> _showUndoDialog() async {
@@ -56,7 +64,9 @@ class _ItemCardState extends State<ItemCard> {
 
     if (widget.counter != 0) {
       final newCount = widget.counter - widget.itemModel.changeAmount;
-      FirebaseDatabase.instance
+      var db = FirebaseDatabase.instance;
+
+      db
           .ref("/users/${userVM.currentUser?.uid}/counts/breakfast")
           .update({widget.itemModel.databaseName: newCount});
     }
