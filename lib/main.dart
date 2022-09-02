@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Old Ephraim',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -69,8 +69,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  FirebaseDatabase database = FirebaseDatabase.instance;
-
   Widget returnCorrectView() {
     var userVM = Provider.of<UserViewModel>(context);
 
