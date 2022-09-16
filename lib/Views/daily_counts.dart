@@ -156,41 +156,52 @@ class _DailyCountsState extends State<DailyCounts> {
   Widget build(BuildContext context) {
     return Consumer<CountsViewModel>(
       builder: (context, countVM, child) {
-        return Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Expanded(
-              child: ListView.separated(
-                itemCount: itemModels.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ItemCard(
-                    itemModel: itemModels[index],
-                    counter:
-                        countVM.itemCounts[itemModels[index].databaseName] ?? 0,
-                    index: index,
-                  );
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    const Divider(
-                  height: 5,
+        if (countVM.itemCountsLoaded) {
+          return Center(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Expanded(
+                child: ListView.separated(
+                  itemCount: itemModels.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ItemCard(
+                      itemModel: itemModels[index],
+                      counter:
+                          countVM.itemCounts[itemModels[index].databaseName] ??
+                              0,
+                      index: index,
+                    );
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      const Divider(
+                    height: 5,
+                  ),
                 ),
               ),
-            ),
-            Text("Last Time Updated: ${countVM.getLastUpdate()}"),
-            Text(
-              countVM.getTotalAndGoal(),
-              style: const TextStyle(fontSize: 40),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 40),
-              child: ElevatedButton(
-                onPressed: () {
-                  _newWeekModal(context);
-                },
-                child: const Text("Start New Week"),
+              Text("Last Time Updated: ${countVM.getLastUpdate()}"),
+              Text(
+                countVM.getTotalAndGoal(),
+                style: const TextStyle(fontSize: 40),
               ),
-            )
-          ]),
-        );
+              Padding(
+                padding: const EdgeInsets.only(bottom: 40),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _newWeekModal(context);
+                  },
+                  child: const Text("Start New Week"),
+                ),
+              )
+            ]),
+          );
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(
+              value: null,
+              color: Colors.blueGrey,
+            ),
+          );
+        }
       },
     );
   }

@@ -19,6 +19,7 @@ class CountsViewModel extends ChangeNotifier {
   List<DateTime> weeksOrdered = [];
   int goal = 0;
   DateTime lastUpdate = DateTime.now();
+  bool itemCountsLoaded = false;
 
   CountsViewModel(this.uid);
 
@@ -74,6 +75,8 @@ class CountsViewModel extends ChangeNotifier {
         itemCounts[nameAndCount.key] = nameAndCount.value;
       }
     }
+
+    itemCountsLoaded = true;
     notifyListeners();
   }
 
